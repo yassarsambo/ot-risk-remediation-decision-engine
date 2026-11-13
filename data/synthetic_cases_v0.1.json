@@ -1,0 +1,197 @@
+{
+  "dataset": "ot-rrde-synthetic-fixtures",
+  "version": "0.1",
+  "date": "2026-11-13",
+  "warning": "All cases fictional. severity_proxy_0_10 is NOT an official CVSS score; EPSS/KEV inputs are fabricated for testing and do not refer to real CVEs.",
+  "cases": [
+    {
+      "data_classification": "synthetic",
+      "recorded_at": "2026-11-13T00:00:00Z",
+      "threat_data_as_of": "2026-11-13",
+      "change_authorised": false,
+      "compensating_controls": [
+        {
+          "name": "OT zone isolation",
+          "effectiveness": "verified",
+          "evidence": "synthetic verification record"
+        }
+      ],
+      "case_id": "SYN-OT-001",
+      "asset_id": "SYN-PLC-01",
+      "asset_type": "plc",
+      "zone": "ot_control",
+      "safety_consequence": "catastrophic",
+      "availability_consequence": "critical",
+      "redundancy_verified": false,
+      "applicability": "confirmed",
+      "vuln_id": "SYN-OT-001-FICTIONAL",
+      "severity_proxy_0_10": 9.6,
+      "kev": false,
+      "active_exploitation_reported": false,
+      "epss_probability": 0.03,
+      "reachability": "isolated_verified",
+      "reachability_verified": true,
+      "patch_available": true,
+      "vendor_approved": false,
+      "patch_tested": false,
+      "maintenance_window_approved": false,
+      "rollback_tested": false,
+      "notes": "Patch-first action unsafe without engineering review; severity alone not urgency.",
+      "expected": {
+        "triage_tier": "P2",
+        "candidate_action": "PLAN_CONTROLLED_MITIGATION_AND_PATCH_REVIEW",
+        "safety_gate": true
+      }
+    },
+    {
+      "data_classification": "synthetic",
+      "recorded_at": "2026-11-13T00:00:00Z",
+      "threat_data_as_of": "2026-11-13",
+      "change_authorised": false,
+      "compensating_controls": [
+        {
+          "name": "Restricted ingress",
+          "effectiveness": "verified",
+          "evidence": "synthetic ACL verification"
+        }
+      ],
+      "case_id": "SYN-OT-002",
+      "asset_id": "SYN-HIST-01",
+      "asset_type": "historian",
+      "zone": "ot_dmz",
+      "safety_consequence": "none",
+      "availability_consequence": "medium",
+      "redundancy_verified": true,
+      "applicability": "confirmed",
+      "vuln_id": "SYN-OT-002-FICTIONAL",
+      "severity_proxy_0_10": 7.1,
+      "kev": true,
+      "active_exploitation_reported": true,
+      "epss_probability": 0.02,
+      "reachability": "enterprise_path",
+      "reachability_verified": true,
+      "patch_available": true,
+      "vendor_approved": true,
+      "patch_tested": true,
+      "maintenance_window_approved": true,
+      "rollback_tested": true,
+      "notes": "KEV true in fictional input; lower EPSS must not negate confirmed exploitation.",
+      "expected": {
+        "triage_tier": "P1",
+        "candidate_action": "PROPOSE_PATCH_IN_APPROVED_WINDOW",
+        "safety_gate": false
+      }
+    },
+    {
+      "data_classification": "synthetic",
+      "recorded_at": "2026-11-13T00:00:00Z",
+      "threat_data_as_of": "2026-11-13",
+      "change_authorised": false,
+      "compensating_controls": [
+        {
+          "name": "Jump host",
+          "effectiveness": "claimed",
+          "evidence": "not independently tested"
+        }
+      ],
+      "case_id": "SYN-OT-003",
+      "asset_id": "SYN-HMI-01",
+      "asset_type": "hmi",
+      "zone": "ot_control",
+      "safety_consequence": "major",
+      "availability_consequence": "high",
+      "redundancy_verified": false,
+      "applicability": "confirmed",
+      "vuln_id": "SYN-OT-003-FICTIONAL",
+      "severity_proxy_0_10": 8.8,
+      "kev": true,
+      "active_exploitation_reported": false,
+      "epss_probability": 0.23,
+      "reachability": "controlled_path",
+      "reachability_verified": true,
+      "patch_available": true,
+      "vendor_approved": true,
+      "patch_tested": false,
+      "maintenance_window_approved": false,
+      "rollback_tested": false,
+      "notes": "High urgency but patch not lab-tested and no approved maintenance window.",
+      "expected": {
+        "triage_tier": "P1",
+        "candidate_action": "PLAN_CONTROLLED_MITIGATION_AND_PATCH_REVIEW",
+        "safety_gate": true
+      }
+    },
+    {
+      "data_classification": "synthetic",
+      "recorded_at": "2026-11-13T00:00:00Z",
+      "threat_data_as_of": "2026-11-13",
+      "change_authorised": false,
+      "compensating_controls": [
+        {
+          "name": "Local application allow-listing",
+          "effectiveness": "verified",
+          "evidence": "synthetic audit"
+        }
+      ],
+      "case_id": "SYN-OT-004",
+      "asset_id": "SYN-EWS-01",
+      "asset_type": "engineering_workstation",
+      "zone": "ot_dmz",
+      "safety_consequence": "none",
+      "availability_consequence": "medium",
+      "redundancy_verified": true,
+      "applicability": "confirmed",
+      "vuln_id": "SYN-OT-004-FICTIONAL",
+      "severity_proxy_0_10": 6.8,
+      "kev": false,
+      "active_exploitation_reported": false,
+      "epss_probability": 0.28,
+      "reachability": "enterprise_path",
+      "reachability_verified": true,
+      "patch_available": true,
+      "vendor_approved": true,
+      "patch_tested": true,
+      "maintenance_window_approved": true,
+      "rollback_tested": true,
+      "notes": "High synthetic exploitation probability is a population indicator, not local incident likelihood.",
+      "expected": {
+        "triage_tier": "P2",
+        "candidate_action": "PROPOSE_PATCH_IN_APPROVED_WINDOW",
+        "safety_gate": false
+      }
+    },
+    {
+      "data_classification": "synthetic",
+      "recorded_at": "2026-11-13T00:00:00Z",
+      "threat_data_as_of": "2026-11-13",
+      "change_authorised": false,
+      "compensating_controls": [],
+      "case_id": "SYN-OT-005",
+      "asset_id": "SYN-PLC-02",
+      "asset_type": "plc",
+      "zone": "ot_control",
+      "safety_consequence": "unknown",
+      "availability_consequence": "critical",
+      "redundancy_verified": "unknown",
+      "applicability": "unknown",
+      "vuln_id": "SYN-OT-005-FICTIONAL",
+      "severity_proxy_0_10": 8.2,
+      "kev": "unknown",
+      "active_exploitation_reported": "unknown",
+      "epss_probability": null,
+      "reachability": "unknown",
+      "reachability_verified": false,
+      "patch_available": "unknown",
+      "vendor_approved": "unknown",
+      "patch_tested": "unknown",
+      "maintenance_window_approved": "unknown",
+      "rollback_tested": "unknown",
+      "notes": "Confirm whether vulnerable component is present before scoring; do not silently treat unknown as low risk.",
+      "expected": {
+        "triage_tier": "ASSESS_APPLICABILITY",
+        "candidate_action": "GATHER_EVIDENCE_AND_ESCALATE",
+        "safety_gate": false
+      }
+    }
+  ]
+}

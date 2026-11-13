@@ -1,0 +1,253 @@
+{
+  "policy_version": "0.1",
+  "data_classification": "synthetic",
+  "results": [
+    {
+      "case_id": "SYN-OT-001",
+      "policy_version": "0.1",
+      "triage_tier": "P2",
+      "investigation_summary": "Prompt expert assessment is proposed, subject to operational constraints and safety approval.",
+      "candidate_action": "PLAN_CONTROLLED_MITIGATION_AND_PATCH_REVIEW",
+      "gates": [
+        "ENGINEERING_SAFETY_REVIEW_REQUIRED"
+      ],
+      "reason_codes": [
+        "HIGH_SAFETY_CONSEQUENCE",
+        "HIGH_SYNTHETIC_SEVERITY_SAFETY_CONSEQUENCE",
+        "VENDOR_APPROVAL_MISSING",
+        "NO_PATCH_TEST",
+        "NO_MAINTENANCE_WINDOW",
+        "NO_TESTED_ROLLBACK",
+        "MITIGATION_OPTIONS_REQUIRE_ENGINEERING_FEASIBILITY_REVIEW",
+        "CHANGE_NOT_YET_AUTHORISED"
+      ],
+      "missing_evidence": [
+        "confirm vendor approved",
+        "confirm patch tested",
+        "confirm maintenance window approved",
+        "confirm rollback tested"
+      ],
+      "data_quality_warnings": [],
+      "human_approvals_required": [
+        "OT asset owner",
+        "safety engineer",
+        "change manager"
+      ],
+      "confidence": "moderate",
+      "confidence_meaning": "completeness of fictional inputs, NOT statistical correctness",
+      "source_data_classification": "synthetic",
+      "decision_generated_at": "simulation-only",
+      "asset_id": "SYN-PLC-01",
+      "vuln_id": "SYN-OT-001-FICTIONAL",
+      "input_signals": {
+        "severity_proxy_0_10": 9.6,
+        "epss_probability": 0.03,
+        "kev": false,
+        "active_exploitation_reported": false,
+        "reachability": "isolated_verified",
+        "reachability_verified": true,
+        "safety_consequence": "catastrophic",
+        "patch_ready_fields": {
+          "patch_available": true,
+          "vendor_approved": false,
+          "patch_tested": false,
+          "maintenance_window_approved": false,
+          "rollback_tested": false
+        }
+      },
+      "operational_action_performed": false
+    },
+    {
+      "case_id": "SYN-OT-002",
+      "policy_version": "0.1",
+      "triage_tier": "P1",
+      "investigation_summary": "Immediate human triage is proposed; this does not authorise an immediate patch.",
+      "candidate_action": "PROPOSE_PATCH_IN_APPROVED_WINDOW",
+      "gates": [],
+      "reason_codes": [
+        "EXPLOITED_VULNERABILITY_WITH_VERIFIED_PATH",
+        "CONFIRMED_EXPLOITATION_INDICATOR_IN_SYNTHETIC_INPUT",
+        "ALL_PATCH_READINESS_GATES_SUPPORTED_IN_SYNTHETIC_RECORD",
+        "CHANGE_NOT_YET_AUTHORISED"
+      ],
+      "missing_evidence": [],
+      "data_quality_warnings": [],
+      "human_approvals_required": [
+        "OT asset owner",
+        "change manager"
+      ],
+      "confidence": "moderate",
+      "confidence_meaning": "completeness of fictional inputs, NOT statistical correctness",
+      "source_data_classification": "synthetic",
+      "decision_generated_at": "simulation-only",
+      "asset_id": "SYN-HIST-01",
+      "vuln_id": "SYN-OT-002-FICTIONAL",
+      "input_signals": {
+        "severity_proxy_0_10": 7.1,
+        "epss_probability": 0.02,
+        "kev": true,
+        "active_exploitation_reported": true,
+        "reachability": "enterprise_path",
+        "reachability_verified": true,
+        "safety_consequence": "none",
+        "patch_ready_fields": {
+          "patch_available": true,
+          "vendor_approved": true,
+          "patch_tested": true,
+          "maintenance_window_approved": true,
+          "rollback_tested": true
+        }
+      },
+      "operational_action_performed": false
+    },
+    {
+      "case_id": "SYN-OT-003",
+      "policy_version": "0.1",
+      "triage_tier": "P1",
+      "investigation_summary": "Immediate human triage is proposed; this does not authorise an immediate patch.",
+      "candidate_action": "PLAN_CONTROLLED_MITIGATION_AND_PATCH_REVIEW",
+      "gates": [
+        "ENGINEERING_SAFETY_REVIEW_REQUIRED"
+      ],
+      "reason_codes": [
+        "HIGH_SAFETY_CONSEQUENCE",
+        "EXPLOITED_VULNERABILITY_WITH_VERIFIED_PATH",
+        "CONFIRMED_EXPLOITATION_INDICATOR_IN_SYNTHETIC_INPUT",
+        "NO_PATCH_TEST",
+        "NO_MAINTENANCE_WINDOW",
+        "NO_TESTED_ROLLBACK",
+        "MITIGATION_OPTIONS_REQUIRE_ENGINEERING_FEASIBILITY_REVIEW",
+        "CHANGE_NOT_YET_AUTHORISED"
+      ],
+      "missing_evidence": [
+        "confirm patch tested",
+        "confirm maintenance window approved",
+        "confirm rollback tested"
+      ],
+      "data_quality_warnings": [
+        "UNVERIFIED_COMPENSATING_CONTROL_CLAIMS"
+      ],
+      "human_approvals_required": [
+        "OT asset owner",
+        "safety engineer",
+        "change manager"
+      ],
+      "confidence": "limited",
+      "confidence_meaning": "completeness of fictional inputs, NOT statistical correctness",
+      "source_data_classification": "synthetic",
+      "decision_generated_at": "simulation-only",
+      "asset_id": "SYN-HMI-01",
+      "vuln_id": "SYN-OT-003-FICTIONAL",
+      "input_signals": {
+        "severity_proxy_0_10": 8.8,
+        "epss_probability": 0.23,
+        "kev": true,
+        "active_exploitation_reported": false,
+        "reachability": "controlled_path",
+        "reachability_verified": true,
+        "safety_consequence": "major",
+        "patch_ready_fields": {
+          "patch_available": true,
+          "vendor_approved": true,
+          "patch_tested": false,
+          "maintenance_window_approved": false,
+          "rollback_tested": false
+        }
+      },
+      "operational_action_performed": false
+    },
+    {
+      "case_id": "SYN-OT-004",
+      "policy_version": "0.1",
+      "triage_tier": "P2",
+      "investigation_summary": "Prompt expert assessment is proposed, subject to operational constraints and safety approval.",
+      "candidate_action": "PROPOSE_PATCH_IN_APPROVED_WINDOW",
+      "gates": [],
+      "reason_codes": [
+        "EPSS_THRESHOLD_AND_REACHABLE",
+        "ALL_PATCH_READINESS_GATES_SUPPORTED_IN_SYNTHETIC_RECORD",
+        "CHANGE_NOT_YET_AUTHORISED"
+      ],
+      "missing_evidence": [],
+      "data_quality_warnings": [],
+      "human_approvals_required": [
+        "OT asset owner",
+        "change manager"
+      ],
+      "confidence": "moderate",
+      "confidence_meaning": "completeness of fictional inputs, NOT statistical correctness",
+      "source_data_classification": "synthetic",
+      "decision_generated_at": "simulation-only",
+      "asset_id": "SYN-EWS-01",
+      "vuln_id": "SYN-OT-004-FICTIONAL",
+      "input_signals": {
+        "severity_proxy_0_10": 6.8,
+        "epss_probability": 0.28,
+        "kev": false,
+        "active_exploitation_reported": false,
+        "reachability": "enterprise_path",
+        "reachability_verified": true,
+        "safety_consequence": "none",
+        "patch_ready_fields": {
+          "patch_available": true,
+          "vendor_approved": true,
+          "patch_tested": true,
+          "maintenance_window_approved": true,
+          "rollback_tested": true
+        }
+      },
+      "operational_action_performed": false
+    },
+    {
+      "case_id": "SYN-OT-005",
+      "policy_version": "0.1",
+      "triage_tier": "ASSESS_APPLICABILITY",
+      "investigation_summary": "Affected component not confirmed; verify applicability before operational remediation planning.",
+      "candidate_action": "GATHER_EVIDENCE_AND_ESCALATE",
+      "gates": [],
+      "reason_codes": [
+        "VULNERABILITY_APPLICABILITY_UNCONFIRMED",
+        "NO_OPERATIONAL_CHANGE_WITH_MISSING_FACTS",
+        "CHANGE_NOT_YET_AUTHORISED"
+      ],
+      "missing_evidence": [
+        "verify vulnerable component, version and asset applicability",
+        "verify actual network reachability or isolation",
+        "OT safety consequence assessment",
+        "dated EPSS source value (if applicable)"
+      ],
+      "data_quality_warnings": [
+        "EPSS_NOT_PROVIDED_OR_UNKNOWN",
+        "EXPLOITATION_INTELLIGENCE_INCOMPLETE"
+      ],
+      "human_approvals_required": [
+        "OT asset owner",
+        "safety engineer",
+        "change manager"
+      ],
+      "confidence": "limited",
+      "confidence_meaning": "completeness of fictional inputs, NOT statistical correctness",
+      "source_data_classification": "synthetic",
+      "decision_generated_at": "simulation-only",
+      "asset_id": "SYN-PLC-02",
+      "vuln_id": "SYN-OT-005-FICTIONAL",
+      "input_signals": {
+        "severity_proxy_0_10": 8.2,
+        "epss_probability": null,
+        "kev": "unknown",
+        "active_exploitation_reported": "unknown",
+        "reachability": "unknown",
+        "reachability_verified": false,
+        "safety_consequence": "unknown",
+        "patch_ready_fields": {
+          "patch_available": "unknown",
+          "vendor_approved": "unknown",
+          "patch_tested": "unknown",
+          "maintenance_window_approved": "unknown",
+          "rollback_tested": "unknown"
+        }
+      },
+      "operational_action_performed": false
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OT-RRDE v0.1 synthetic case",
+  "type": "object",
+  "properties": {
+    "zone": {
+      "type": "string",
+      "enum": [
+        "ot_control",
+        "ot_dmz",
+        "enterprise",
+        "unknown"
+      ]
+    },
+    "safety_consequence": {
+      "type": "string",
+      "enum": [
+        "none",
+        "moderate",
+        "major",
+        "catastrophic",
+        "unknown"
+      ]
+    },
+    "availability_consequence": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical",
+        "unknown"
+      ]
+    },
+    "applicability": {
+      "type": "string",
+      "enum": [
+        "confirmed",
+        "suspected",
+        "unknown"
+      ]
+    },
+    "reachability": {
+      "type": "string",
+      "enum": [
+        "internet",
+        "enterprise_path",
+        "controlled_path",
+        "isolated_verified",
+        "unknown"
+      ]
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "asset_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "asset_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "vuln_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "notes": {
+      "type": "string",
+      "minLength": 1
+    },
+    "data_classification": {
+      "const": "synthetic"
+    },
+    "redundancy_verified": {
+      "enum": [
+        true,
+        false,
+        "unknown"
+      ]
+    },
+    "kev": {
+      "enum": [
+        true,
+        false,
+        "unknown"
+      ]
+    },
+    "active_exploitation_reported": {
+      "enum": [
+        true,
+        false,
+        "unknown"
+      ]
+    },
+    "patch_available": {
+      "enum": [
+        true,
+        false,
+        "unknown"
+      ]
+    },
+    "vendor_approved": {
+      "enum": [
+        true,
+        false,
+        "unknown"
+      ]
+    },
+    "patch_tested": {
+      "enum": [
+        true,
+        false,
+        "unknown"
+      ]
+    },
+    "maintenance_window_approved": {
+      "enum": [
+        true,
+        false,
+        "unknown"
+      ]
+    },
+    "rollback_tested": {
+      "enum": [
+        true,
+        false,
+        "unknown"
+      ]
+    },
+    "reachability_verified": {
+      "type": "boolean"
+    },
+    "change_authorised": {
+      "type": "boolean"
+    },
+    "severity_proxy_0_10": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "epss_probability": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "threat_data_as_of": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "compensating_controls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "effectiveness": {
+            "enum": [
+              "verified",
+              "claimed",
+              "unknown"
+            ]
+          },
+          "evidence": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "effectiveness",
+          "evidence"
+        ]
+      }
+    },
+    "expected": {
+      "type": "object",
+      "description": "Test fixture assertions, not operational evidence"
+    }
+  },
+  "required": [
+    "active_exploitation_reported",
+    "applicability",
+    "asset_id",
+    "asset_type",
+    "availability_consequence",
+    "case_id",
+    "change_authorised",
+    "compensating_controls",
+    "data_classification",
+    "epss_probability",
+    "kev",
+    "maintenance_window_approved",
+    "notes",
+    "patch_available",
+    "patch_tested",
+    "reachability",
+    "reachability_verified",
+    "recorded_at",
+    "redundancy_verified",
+    "rollback_tested",
+    "safety_consequence",
+    "severity_proxy_0_10",
+    "threat_data_as_of",
+    "vendor_approved",
+    "vuln_id",
+    "zone"
+  ],
+  "additionalProperties": false,
+  "description": "Reference schema for fictional test data. The Python validator enforces runtime conditions; standard library runtime does not use this schema."
+}
