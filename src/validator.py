@@ -11,6 +11,7 @@ ZONES = {"ot_control", "ot_dmz", "enterprise", "unknown"}
 
 REQUIRED_STRINGS = ("case_id", "asset_id", "asset_type", "vuln_id", "data_classification", "notes", "recorded_at")
 TRISTATE_FIELDS = ("redundancy_verified", "kev", "active_exploitation_reported", "patch_available", "vendor_approved", "patch_tested", "maintenance_window_approved", "rollback_tested")
+OPTIONAL_TRISTATE_FIELDS = ("availability_impact_review_approved", "downtime_contingency_approved")
 
 
 class InputError(ValueError):
@@ -36,6 +37,10 @@ def validate_case(case):
             raise InputError(f"{name}: invalid or missing value")
     for name in TRISTATE_FIELDS:
         if case.get(name) not in TRISTATE or (isinstance(case.get(name), int) and not isinstance(case.get(name), bool)):
+            raise InputError(f"{name}: expected true, false or 'unknown'")
+    for name in OPTIONAL_TRISTATE_FIELDS:
+        if name in case and (case[name] not in TRISTATE or
+                             (isinstance(case[name], int) and not isinstance(case[name], bool))):
             raise InputError(f"{name}: expected true, false or 'unknown'")
     if type(case.get("reachability_verified")) is not bool:
         raise InputError("reachability_verified: expected boolean")
