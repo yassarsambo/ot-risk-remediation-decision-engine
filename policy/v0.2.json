@@ -1,0 +1,28 @@
+{
+  "policy_version": "0.2",
+  "synthetic_severity_p1": 9,
+  "synthetic_severity_p2": 7,
+  "epss_threshold": 0.1,
+  "known_reachable_paths": [
+    "internet",
+    "enterprise_path",
+    "controlled_path"
+  ],
+  "critical_safety_categories": [
+    "major",
+    "catastrophic"
+  ],
+  "patch_readiness_fields": [
+    "patch_available",
+    "vendor_approved",
+    "patch_tested",
+    "maintenance_window_approved",
+    "rollback_tested"
+  ],
+  "availability_gate_enabled": true,
+  "availability_review_categories": [
+    "high",
+    "critical"
+  ],
+  "notice": "Uncalibrated offline research-only rules; high/critical availability impact requires documented availability review and redundancy/contingency verification before a patch proposal. Human approval remains mandatory; no operational changes."
+}
