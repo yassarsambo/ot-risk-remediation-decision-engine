@@ -61,6 +61,15 @@ def validate_case(case):
         for field in ("name", "evidence"):
             if not isinstance(control.get(field), str) or not control[field].strip():
                 raise InputError(f"compensating_controls[{i}].{field}: expected nonempty string")
+        if "attack_path_relevance" in control and control["attack_path_relevance"] not in ("relevant", "irrelevant", "unknown"):
+            raise InputError(f"compensating_controls[{i}].attack_path_relevance: invalid value")
+        if "control_type" in control and control["control_type"] not in ("network_isolation", "access_control", "monitoring", "other"):
+            raise InputError(f"compensating_controls[{i}].control_type: invalid value")
+        if "verification_as_of" in control:
+            try:
+                date.fromisoformat(control["verification_as_of"])
+            except (ValueError, TypeError) as exc:
+                raise InputError(f"compensating_controls[{i}].verification_as_of: invalid ISO date") from exc
     warnings = []
     if epss is None:
         warnings.append("EPSS_NOT_PROVIDED_OR_UNKNOWN")
