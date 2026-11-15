@@ -5,9 +5,11 @@ The 'expected' fixture labels are policy-authored and are NOT expert ground trut
 import json
 from collections import Counter
 from pathlib import Path
-from src.decision_engine import decide
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from src.decision_engine import decide
 
 
 def main():
