@@ -1,7 +1,6 @@
 name: Python unit tests
 on:
   push:
-    branches: [main, feature/v0.2-availability-redundancy]
   pull_request:
     branches: [main]
 jobs:
