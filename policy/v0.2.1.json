@@ -1,0 +1,30 @@
+{
+  "policy_version": "0.2.1",
+  "synthetic_severity_p1": 9,
+  "synthetic_severity_p2": 7,
+  "epss_threshold": 0.1,
+  "known_reachable_paths": [
+    "internet",
+    "enterprise_path",
+    "controlled_path"
+  ],
+  "critical_safety_categories": [
+    "major",
+    "catastrophic"
+  ],
+  "patch_readiness_fields": [
+    "patch_available",
+    "vendor_approved",
+    "patch_tested",
+    "maintenance_window_approved",
+    "rollback_tested"
+  ],
+  "availability_gate_enabled": true,
+  "availability_review_categories": [
+    "high",
+    "critical"
+  ],
+  "control_evidence_enabled": true,
+  "control_evidence_max_age_days": 90,
+  "notice": "Uncalibrated offline synthetic research policy. Control evidence credit is heuristic and never reduces urgency. Unsupported isolation is escalated. No operational changes."
+}
