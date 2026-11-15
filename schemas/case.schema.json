@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "OT-RRDE v0.1 synthetic case",
+  "title": "OT-RRDE synthetic case (v0.1–v0.2.1 optional fields)",
   "type": "object",
   "properties": {
     "zone": {
@@ -176,6 +176,25 @@
           },
           "evidence": {
             "type": "string"
+          },
+          "attack_path_relevance": {
+            "enum": [
+              "relevant",
+              "irrelevant",
+              "unknown"
+            ]
+          },
+          "control_type": {
+            "enum": [
+              "network_isolation",
+              "access_control",
+              "monitoring",
+              "other"
+            ]
+          },
+          "verification_as_of": {
+            "type": "string",
+            "format": "date"
           }
         },
         "required": [
@@ -188,6 +207,20 @@
     "expected": {
       "type": "object",
       "description": "Test fixture assertions, not operational evidence"
+    },
+    "availability_impact_review_approved": {
+      "enum": [
+        true,
+        false,
+        "unknown"
+      ]
+    },
+    "downtime_contingency_approved": {
+      "enum": [
+        true,
+        false,
+        "unknown"
+      ]
     }
   },
   "required": [
@@ -219,5 +252,5 @@
     "zone"
   ],
   "additionalProperties": false,
-  "description": "Reference schema for fictional test data. The Python validator enforces runtime conditions; standard library runtime does not use this schema."
+  "description": "Reference schema for fictional data; optional v0.2.1 control evidence fields. Python validator is the runtime authority; schema is informational."
 }
