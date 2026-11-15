@@ -53,9 +53,49 @@ def _availability_assurance(case, policy):
     return gates, reasons, missing, impact_review is True and redundancy_ready
 
 
+def _review_controls(case, policy):
+    """Examine synthetic evidence assertions; never infer real-world efficacy."""
+    if not policy.get("control_evidence_enabled", False):
+        return None
+    from datetime import date, datetime
+
+    recorded = datetime.fromisoformat(case["recorded_at"].replace("Z", "+00:00")).date()
+    credited, uncredited = [], []
+    max_age = policy["control_evidence_max_age_days"]
+    for control in case["compensating_controls"]:
+        reason = None
+        if control["effectiveness"] != "verified":
+            reason = "CONTROL_EFFECTIVENESS_NOT_VERIFIED"
+        elif control.get("attack_path_relevance") != "relevant":
+            reason = "CONTROL_ATTACK_PATH_RELEVANCE_NOT_ESTABLISHED"
+        elif control.get("control_type") not in ("network_isolation", "access_control", "monitoring", "other"):
+            reason = "CONTROL_TYPE_UNSPECIFIED"
+        elif not control.get("verification_as_of"):
+            reason = "CONTROL_EVIDENCE_DATE_MISSING"
+        else:
+            verified_at = date.fromisoformat(control["verification_as_of"])
+            age = (recorded - verified_at).days
+            if age < 0:
+                reason = "CONTROL_EVIDENCE_FUTURE_DATED"
+            elif age > max_age:
+                reason = "CONTROL_EVIDENCE_STALE_RESEARCH_HEURISTIC"
+        item = {"name": control["name"], "control_type": control.get("control_type", "unknown")}
+        if reason:
+            uncredited.append({**item, "reason": reason})
+        else:
+            credited.append(item)
+    return {
+        "credited": credited,
+        "not_credited": uncredited,
+        "isolation_record_supported": any(c["control_type"] == "network_isolation" for c in credited),
+        "caveat": "Credits only consistent assertions in synthetic inputs, not independently validated real controls.",
+    }
+
+
 def decide(case, policy):
     warnings = validate_case(case)
     reasons, missing, gates = [], [], []
+    control_review = _review_controls(case, policy)
     critical_safety = case["safety_consequence"] in policy["critical_safety_categories"]
     if critical_safety:
         gates.append("ENGINEERING_SAFETY_REVIEW_REQUIRED")
@@ -64,12 +104,29 @@ def decide(case, policy):
     gates.extend(availability_gates)
     reasons.extend(availability_reasons)
     missing.extend(availability_missing)
+    if control_review:
+        for item in control_review["not_credited"]:
+            reasons.append(item["reason"])
+        if control_review["not_credited"]:
+            missing.append("check compensating-control scope, supporting tests, and verification dates")
+        if control_review["credited"]:
+            reasons.append("CONTROL_EVIDENCE_ASSERTION_PASSES_SYNTHETIC_CHECKS")
+        # Credited controls are never used to decrease triage urgency.
+    isolated_claim_unsubstantiated = bool(
+        control_review is not None
+        and case["reachability"] == "isolated_verified"
+        and not control_review["isolation_record_supported"]
+    )
+    if isolated_claim_unsubstantiated:
+        reasons.append("ISOLATION_ASSERTION_UNSUPPORTED_BY_CONTROL_EVIDENCE")
+        missing.append("substantiate network isolation for the stated attack path")
     exploited = case["kev"] is True or case["active_exploitation_reported"] is True
     reachable = case["reachability"] in policy["known_reachable_paths"]
     context_missing = (case["safety_consequence"] == "unknown" or
                        case["availability_consequence"] == "unknown" or
                        case["reachability"] == "unknown" or
-                       not case["reachability_verified"])
+                       not case["reachability_verified"] or
+                       isolated_claim_unsubstantiated)
     if case["applicability"] != "confirmed":
         tier = "ASSESS_APPLICABILITY"
         reasons.append("VULNERABILITY_APPLICABILITY_UNCONFIRMED")
@@ -140,6 +197,8 @@ def decide(case, policy):
         reasons.append("EXISTING_CHANGE_AUTHORISATION_RECORDED_NOT_EXECUTED")
     else:
         reasons.append("CHANGE_NOT_YET_AUTHORISED")
+    if control_review is not None and control_review["not_credited"]:
+        warnings.append("CONTROL_EVIDENCE_UNCONFIRMED_FOR_STATED_ATTACK_PATH")
     confidence = "limited" if warnings or tier in ("ASSESS_APPLICABILITY", "NEEDS_CONTEXT_REVIEW") else "moderate"
     outcome = {
         "case_id": case["case_id"], "policy_version": policy["policy_version"],
@@ -165,6 +224,8 @@ def decide(case, policy):
             "availability_impact_review_approved": case.get("availability_impact_review_approved", "unknown"),
             "downtime_contingency_approved": case.get("downtime_contingency_approved", "unknown"),
         })
+    if control_review is not None:
+        outcome["control_assessment"] = control_review
     return outcome
 
 

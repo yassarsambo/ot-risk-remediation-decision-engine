@@ -1,7 +1,6 @@
 name: Python unit tests
 on:
   push:
-    branches: [main, feature/v0.2-availability-redundancy]
   pull_request:
     branches: [main]
 jobs:
@@ -14,3 +13,5 @@ jobs:
           python-version: '3.12'
       - name: Run standard-library tests
         run: python -m unittest discover -s tests -v
+      - name: Generate synthetic benchmark evaluation
+        run: python scripts/evaluate_benchmark.py
