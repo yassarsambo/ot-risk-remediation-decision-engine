@@ -1,0 +1,524 @@
+{
+  "dataset": "OT-RRDE v0.3 reviewer pilot",
+  "version": "0.3-pilot",
+  "date": "2026-11-16",
+  "purpose": "Fictional development vignettes for testing the independent annotation rubric.",
+  "projection_notes": [
+    "Both policies receive the same case JSON. The evidence records preserve the fictional dossiers for human review. The current engine consumes the projected fields and the development policy additionally evaluates the per-score EPSS snapshot.",
+    "KEV booleans represent presence or absence in the checked fictional catalogue. The withdrawn vendor claim maps to unknown for active exploitation reporting. The remaining newsletter copy shares the vendor origin.",
+    "When the installed build is disputed, applicability maps to unknown. An availability review awaiting sign-off maps to unknown."
+  ],
+  "matched_families": [
+    {
+      "focus": "Timing of the EPSS snapshot",
+      "case_ids": [
+        "PILOT-41",
+        "PILOT-83"
+      ],
+      "projected_field": "epss_evidence"
+    },
+    {
+      "focus": "Withdrawal of an exploitation report whose republication shares the same origin",
+      "case_ids": [
+        "PILOT-72",
+        "PILOT-16"
+      ],
+      "projected_field": "active_exploitation_reported"
+    },
+    {
+      "focus": "Approval of the availability-impact review",
+      "case_ids": [
+        "PILOT-35",
+        "PILOT-64"
+      ],
+      "projected_field": "availability_impact_review_approved"
+    },
+    {
+      "focus": "Conflicting evidence about the affected build",
+      "case_ids": [
+        "PILOT-29",
+        "PILOT-57"
+      ],
+      "projected_field": "applicability"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "PILOT-64",
+      "data_classification": "synthetic",
+      "recorded_at": "2026-11-16T12:00:00Z",
+      "notes": "The single operator station supervises a packaging line. A station outage stops production until operators can safely restart the line. Local protective functions continue to operate. The maintenance path and affected build were checked during the current production cycle.",
+      "asset_id": "SYNTH-LINE-01",
+      "asset_type": "Packaging line operator station",
+      "vuln_id": "SYNTH-FINDING-LINE",
+      "zone": "ot_control",
+      "applicability": "confirmed",
+      "reachability": "controlled_path",
+      "reachability_verified": true,
+      "severity_proxy_0_10": 7.6,
+      "safety_consequence": "moderate",
+      "availability_consequence": "high",
+      "redundancy_verified": false,
+      "kev": true,
+      "active_exploitation_reported": "unknown",
+      "epss_probability": null,
+      "threat_data_as_of": "2026-11-16",
+      "patch_available": true,
+      "vendor_approved": true,
+      "patch_tested": true,
+      "maintenance_window_approved": true,
+      "rollback_tested": true,
+      "downtime_contingency_approved": true,
+      "availability_impact_review_approved": "unknown",
+      "compensating_controls": [],
+      "change_authorised": false,
+      "evidence_records": [
+        {
+          "source_id": "LINE-10",
+          "source": "Threat-intelligence desk",
+          "available_at": "2026-11-16T08:30:00Z",
+          "claim": "A checked fictional catalogue lists the finding as having evidence of exploitation in the wild. A dated EPSS score was unavailable."
+        },
+        {
+          "source_id": "LINE-11",
+          "source": "Vendor and test records",
+          "available_at": "2026-11-16T09:45:00Z",
+          "claim": "A vendor-approved patch is available. Engineers successfully tested the patch and rollback on a representative spare system."
+        },
+        {
+          "source_id": "LINE-12",
+          "source": "Change register",
+          "available_at": "2026-11-16T10:15:00Z",
+          "claim": "An outage window and a downtime contingency for the single station are approved. Final change authorisation is pending."
+        },
+        {
+          "source_id": "LINE-13",
+          "source": "Availability review register",
+          "available_at": "2026-11-16T11:00:00Z",
+          "claim": "The availability-impact review for this window and contingency is still awaiting sign-off."
+        }
+      ]
+    },
+    {
+      "case_id": "PILOT-41",
+      "data_classification": "synthetic",
+      "recorded_at": "2026-11-16T12:00:00Z",
+      "notes": "The workstation displays refrigeration trends. Local controllers and alarm panels continue to operate during a workstation outage, and operators can take manual readings. The workstation is reached through an authenticated maintenance service with access restrictions checked in the current configuration.",
+      "asset_id": "SYNTH-COLD-01",
+      "asset_type": "Cold-store maintenance workstation",
+      "vuln_id": "SYNTH-FINDING-COLD",
+      "zone": "ot_dmz",
+      "applicability": "confirmed",
+      "reachability": "controlled_path",
+      "reachability_verified": true,
+      "severity_proxy_0_10": 6.8,
+      "safety_consequence": "none",
+      "availability_consequence": "low",
+      "redundancy_verified": false,
+      "kev": false,
+      "active_exploitation_reported": false,
+      "epss_probability": 0.3,
+      "threat_data_as_of": "2026-11-16",
+      "patch_available": true,
+      "vendor_approved": true,
+      "patch_tested": false,
+      "maintenance_window_approved": false,
+      "rollback_tested": false,
+      "epss_evidence": {
+        "snapshot_id": "SYNTH-COLD-2026-11-16",
+        "score_date": "2026-11-16",
+        "available_at": "2026-11-16T11:30:00Z"
+      },
+      "compensating_controls": [],
+      "change_authorised": false,
+      "evidence_records": [
+        {
+          "source_id": "COLD-17",
+          "source": "Plant inventory and vendor bulletin",
+          "available_at": "2026-11-15T16:00:00Z",
+          "claim": "The installed software build matches the bulletin. The bulletin provides a patch for this build."
+        },
+        {
+          "source_id": "COLD-18",
+          "source": "Threat-intelligence desk",
+          "available_at": "2026-11-16T10:00:00Z",
+          "claim": "The checked fictional exploited-vulnerability catalogue contains no matching entry. The desk found no reports of active exploitation in the sources it reviewed."
+        },
+        {
+          "source_id": "COLD-19",
+          "source": "Maintenance log",
+          "available_at": "2026-11-16T11:15:00Z",
+          "claim": "The patch and vendor approval are on file. The patch and rollback have yet to be tested, and a maintenance window awaits approval."
+        },
+        {
+          "source_id": "COLD-20",
+          "source": "16 November fictional EPSS snapshot",
+          "available_at": "2026-11-16T11:30:00Z",
+          "claim": "The snapshot assigns this finding a score of 0.30."
+        }
+      ]
+    },
+    {
+      "case_id": "PILOT-57",
+      "data_classification": "synthetic",
+      "recorded_at": "2026-11-16T12:00:00Z",
+      "notes": "A read-only replica stores energy-use data for weekly reporting. Plant monitoring, alarms and control are independent of it. The replica's access restrictions were checked on the current configuration.",
+      "asset_id": "SYNTH-REPORT-01",
+      "asset_type": "Glassworks reporting replica",
+      "vuln_id": "SYNTH-FINDING-REPLICA",
+      "zone": "ot_dmz",
+      "reachability": "controlled_path",
+      "reachability_verified": true,
+      "severity_proxy_0_10": 5.4,
+      "safety_consequence": "none",
+      "availability_consequence": "low",
+      "redundancy_verified": false,
+      "kev": false,
+      "active_exploitation_reported": false,
+      "epss_probability": 0.02,
+      "threat_data_as_of": "2026-11-16",
+      "patch_available": true,
+      "vendor_approved": true,
+      "patch_tested": false,
+      "maintenance_window_approved": false,
+      "rollback_tested": false,
+      "epss_evidence": {
+        "snapshot_id": "SYNTH-REPLICA-2026-11-16",
+        "score_date": "2026-11-16",
+        "available_at": "2026-11-16T07:00:00Z"
+      },
+      "applicability": "unknown",
+      "compensating_controls": [],
+      "change_authorised": false,
+      "evidence_records": [
+        {
+          "source_id": "REPLICA-20",
+          "source": "Vendor advisory",
+          "available_at": "2026-11-16T07:00:00Z",
+          "claim": "Build 5.4 is affected. Build 5.5 is outside the affected range. An approved patch is available for 5.4."
+        },
+        {
+          "source_id": "REPLICA-21",
+          "source": "Threat-intelligence desk",
+          "available_at": "2026-11-16T09:00:00Z",
+          "claim": "The dated fictional EPSS edition for 16 November was available at 07:00 UTC and contains a score of 0.02. The reviewed sources contain no matching fictional catalogue entry or credible reports of active exploitation."
+        },
+        {
+          "source_id": "REPLICA-23",
+          "source": "Local inventory worksheet",
+          "available_at": "2026-11-16T10:00:00Z",
+          "claim": "The most recent on-site worksheet records installed build 5.4 for this replica."
+        },
+        {
+          "source_id": "REPLICA-22",
+          "source": "Patch register",
+          "available_at": "2026-11-16T11:00:00Z",
+          "claim": "Patch and rollback testing are outstanding, and a maintenance window awaits approval."
+        },
+        {
+          "source_id": "REPLICA-24",
+          "source": "Fleet inventory check",
+          "available_at": "2026-11-16T11:15:00Z",
+          "claim": "The fleet inventory lists the same replica as build 5.5. The site has yet to verify the live version or resolve the two records."
+        }
+      ]
+    },
+    {
+      "case_id": "PILOT-72",
+      "data_classification": "synthetic",
+      "recorded_at": "2026-11-16T12:00:00Z",
+      "notes": "The workstation displays alarms and process status for two pump stations. The stations have local control and interlocks. If central visibility is lost, operators must travel to the stations for some checks and responses. The current reachability and supervisory failover arrangements are still being verified.",
+      "asset_id": "SYNTH-PUMP-01",
+      "asset_type": "Pump-station supervisory workstation",
+      "vuln_id": "SYNTH-FINDING-PUMP",
+      "zone": "ot_control",
+      "applicability": "confirmed",
+      "reachability": "unknown",
+      "reachability_verified": false,
+      "severity_proxy_0_10": 7.4,
+      "safety_consequence": "moderate",
+      "availability_consequence": "medium",
+      "redundancy_verified": "unknown",
+      "kev": false,
+      "epss_probability": null,
+      "threat_data_as_of": "2026-11-16",
+      "patch_available": true,
+      "vendor_approved": true,
+      "patch_tested": "unknown",
+      "maintenance_window_approved": false,
+      "rollback_tested": "unknown",
+      "active_exploitation_reported": true,
+      "compensating_controls": [],
+      "change_authorised": false,
+      "evidence_records": [
+        {
+          "source_id": "PUMP-03",
+          "source": "Vendor security notice for the installed build",
+          "available_at": "2026-11-16T08:00:00Z",
+          "claim": "The vendor says its incident-response team observed exploitation of the affected software in customer environments. The notice matches the site's inventory and identifies an approved patch."
+        },
+        {
+          "source_id": "PUMP-04",
+          "source": "Industry newsletter",
+          "available_at": "2026-11-16T09:00:00Z",
+          "claim": "The newsletter repeats the vendor's statement about active exploitation and cites the vendor notice as its source.",
+          "derived_from": "PUMP-03"
+        },
+        {
+          "source_id": "PUMP-05",
+          "source": "Threat-intelligence desk",
+          "available_at": "2026-11-16T10:00:00Z",
+          "claim": "A check found no matching entry in the fictional exploited-vulnerability catalogue. A dated EPSS score was unavailable."
+        },
+        {
+          "source_id": "PUMP-06",
+          "source": "Operations log",
+          "available_at": "2026-11-16T10:45:00Z",
+          "claim": "The maintenance window awaits approval. Patch-test and rollback-test records have yet to be located."
+        }
+      ]
+    },
+    {
+      "case_id": "PILOT-29",
+      "data_classification": "synthetic",
+      "recorded_at": "2026-11-16T12:00:00Z",
+      "notes": "A read-only replica stores energy-use data for weekly reporting. Plant monitoring, alarms and control are independent of it. The replica's access restrictions were checked on the current configuration.",
+      "asset_id": "SYNTH-REPORT-01",
+      "asset_type": "Glassworks reporting replica",
+      "vuln_id": "SYNTH-FINDING-REPLICA",
+      "zone": "ot_dmz",
+      "reachability": "controlled_path",
+      "reachability_verified": true,
+      "severity_proxy_0_10": 5.4,
+      "safety_consequence": "none",
+      "availability_consequence": "low",
+      "redundancy_verified": false,
+      "kev": false,
+      "active_exploitation_reported": false,
+      "epss_probability": 0.02,
+      "threat_data_as_of": "2026-11-16",
+      "patch_available": true,
+      "vendor_approved": true,
+      "patch_tested": false,
+      "maintenance_window_approved": false,
+      "rollback_tested": false,
+      "epss_evidence": {
+        "snapshot_id": "SYNTH-REPLICA-2026-11-16",
+        "score_date": "2026-11-16",
+        "available_at": "2026-11-16T07:00:00Z"
+      },
+      "applicability": "confirmed",
+      "compensating_controls": [],
+      "change_authorised": false,
+      "evidence_records": [
+        {
+          "source_id": "REPLICA-20",
+          "source": "Vendor advisory",
+          "available_at": "2026-11-16T07:00:00Z",
+          "claim": "Build 5.4 is affected. Build 5.5 is outside the affected range. An approved patch is available for 5.4."
+        },
+        {
+          "source_id": "REPLICA-21",
+          "source": "Threat-intelligence desk",
+          "available_at": "2026-11-16T09:00:00Z",
+          "claim": "The dated fictional EPSS edition for 16 November was available at 07:00 UTC and contains a score of 0.02. The reviewed sources contain no matching fictional catalogue entry or credible reports of active exploitation."
+        },
+        {
+          "source_id": "REPLICA-23",
+          "source": "Local inventory worksheet",
+          "available_at": "2026-11-16T10:00:00Z",
+          "claim": "The most recent on-site worksheet records installed build 5.4 for this replica."
+        },
+        {
+          "source_id": "REPLICA-22",
+          "source": "Patch register",
+          "available_at": "2026-11-16T11:00:00Z",
+          "claim": "Patch and rollback testing are outstanding, and a maintenance window awaits approval."
+        },
+        {
+          "source_id": "REPLICA-24",
+          "source": "Fleet inventory check",
+          "available_at": "2026-11-16T11:15:00Z",
+          "claim": "A version readout from the replica confirmed build 5.4."
+        }
+      ]
+    },
+    {
+      "case_id": "PILOT-83",
+      "data_classification": "synthetic",
+      "recorded_at": "2026-11-16T12:00:00Z",
+      "notes": "The workstation displays refrigeration trends. Local controllers and alarm panels continue to operate during a workstation outage, and operators can take manual readings. The workstation is reached through an authenticated maintenance service with access restrictions checked in the current configuration.",
+      "asset_id": "SYNTH-COLD-01",
+      "asset_type": "Cold-store maintenance workstation",
+      "vuln_id": "SYNTH-FINDING-COLD",
+      "zone": "ot_dmz",
+      "applicability": "confirmed",
+      "reachability": "controlled_path",
+      "reachability_verified": true,
+      "severity_proxy_0_10": 6.8,
+      "safety_consequence": "none",
+      "availability_consequence": "low",
+      "redundancy_verified": false,
+      "kev": false,
+      "active_exploitation_reported": false,
+      "epss_probability": 0.3,
+      "threat_data_as_of": "2026-11-16",
+      "patch_available": true,
+      "vendor_approved": true,
+      "patch_tested": false,
+      "maintenance_window_approved": false,
+      "rollback_tested": false,
+      "epss_evidence": {
+        "snapshot_id": "SYNTH-COLD-2026-11-16",
+        "score_date": "2026-11-16",
+        "available_at": "2026-11-16T13:30:00Z"
+      },
+      "compensating_controls": [],
+      "change_authorised": false,
+      "evidence_records": [
+        {
+          "source_id": "COLD-17",
+          "source": "Plant inventory and vendor bulletin",
+          "available_at": "2026-11-15T16:00:00Z",
+          "claim": "The installed software build matches the bulletin. The bulletin provides a patch for this build."
+        },
+        {
+          "source_id": "COLD-18",
+          "source": "Threat-intelligence desk",
+          "available_at": "2026-11-16T10:00:00Z",
+          "claim": "The checked fictional exploited-vulnerability catalogue contains no matching entry. The desk found no reports of active exploitation in the sources it reviewed."
+        },
+        {
+          "source_id": "COLD-19",
+          "source": "Maintenance log",
+          "available_at": "2026-11-16T11:15:00Z",
+          "claim": "The patch and vendor approval are on file. The patch and rollback have yet to be tested, and a maintenance window awaits approval."
+        },
+        {
+          "source_id": "COLD-20",
+          "source": "16 November fictional EPSS snapshot",
+          "available_at": "2026-11-16T13:30:00Z",
+          "claim": "The snapshot assigns this finding a score of 0.30."
+        }
+      ]
+    },
+    {
+      "case_id": "PILOT-35",
+      "data_classification": "synthetic",
+      "recorded_at": "2026-11-16T12:00:00Z",
+      "notes": "The single operator station supervises a packaging line. A station outage stops production until operators can safely restart the line. Local protective functions continue to operate. The maintenance path and affected build were checked during the current production cycle.",
+      "asset_id": "SYNTH-LINE-01",
+      "asset_type": "Packaging line operator station",
+      "vuln_id": "SYNTH-FINDING-LINE",
+      "zone": "ot_control",
+      "applicability": "confirmed",
+      "reachability": "controlled_path",
+      "reachability_verified": true,
+      "severity_proxy_0_10": 7.6,
+      "safety_consequence": "moderate",
+      "availability_consequence": "high",
+      "redundancy_verified": false,
+      "kev": true,
+      "active_exploitation_reported": "unknown",
+      "epss_probability": null,
+      "threat_data_as_of": "2026-11-16",
+      "patch_available": true,
+      "vendor_approved": true,
+      "patch_tested": true,
+      "maintenance_window_approved": true,
+      "rollback_tested": true,
+      "downtime_contingency_approved": true,
+      "availability_impact_review_approved": true,
+      "compensating_controls": [],
+      "change_authorised": false,
+      "evidence_records": [
+        {
+          "source_id": "LINE-10",
+          "source": "Threat-intelligence desk",
+          "available_at": "2026-11-16T08:30:00Z",
+          "claim": "A checked fictional catalogue lists the finding as having evidence of exploitation in the wild. A dated EPSS score was unavailable."
+        },
+        {
+          "source_id": "LINE-11",
+          "source": "Vendor and test records",
+          "available_at": "2026-11-16T09:45:00Z",
+          "claim": "A vendor-approved patch is available. Engineers successfully tested the patch and rollback on a representative spare system."
+        },
+        {
+          "source_id": "LINE-12",
+          "source": "Change register",
+          "available_at": "2026-11-16T10:15:00Z",
+          "claim": "An outage window and a downtime contingency for the single station are approved. Final change authorisation is pending."
+        },
+        {
+          "source_id": "LINE-13",
+          "source": "Availability review register",
+          "available_at": "2026-11-16T11:00:00Z",
+          "claim": "The operations lead signed the availability-impact review for this window and contingency."
+        }
+      ]
+    },
+    {
+      "case_id": "PILOT-16",
+      "data_classification": "synthetic",
+      "recorded_at": "2026-11-16T12:00:00Z",
+      "notes": "The workstation displays alarms and process status for two pump stations. The stations have local control and interlocks. If central visibility is lost, operators must travel to the stations for some checks and responses. The current reachability and supervisory failover arrangements are still being verified.",
+      "asset_id": "SYNTH-PUMP-01",
+      "asset_type": "Pump-station supervisory workstation",
+      "vuln_id": "SYNTH-FINDING-PUMP",
+      "zone": "ot_control",
+      "applicability": "confirmed",
+      "reachability": "unknown",
+      "reachability_verified": false,
+      "severity_proxy_0_10": 7.4,
+      "safety_consequence": "moderate",
+      "availability_consequence": "medium",
+      "redundancy_verified": "unknown",
+      "kev": false,
+      "epss_probability": null,
+      "threat_data_as_of": "2026-11-16",
+      "patch_available": true,
+      "vendor_approved": true,
+      "patch_tested": "unknown",
+      "maintenance_window_approved": false,
+      "rollback_tested": "unknown",
+      "active_exploitation_reported": "unknown",
+      "compensating_controls": [],
+      "change_authorised": false,
+      "evidence_records": [
+        {
+          "source_id": "PUMP-03",
+          "source": "Vendor security notice for the installed build",
+          "available_at": "2026-11-16T08:00:00Z",
+          "claim": "The vendor says its incident-response team observed exploitation of the affected software in customer environments. The notice matches the site's inventory and identifies an approved patch."
+        },
+        {
+          "source_id": "PUMP-04",
+          "source": "Industry newsletter",
+          "available_at": "2026-11-16T09:00:00Z",
+          "claim": "The newsletter repeats the vendor's statement about active exploitation and cites the vendor notice as its source.",
+          "derived_from": "PUMP-03"
+        },
+        {
+          "source_id": "PUMP-05",
+          "source": "Threat-intelligence desk",
+          "available_at": "2026-11-16T10:00:00Z",
+          "claim": "A check found no matching entry in the fictional exploited-vulnerability catalogue. A dated EPSS score was unavailable."
+        },
+        {
+          "source_id": "PUMP-06",
+          "source": "Operations log",
+          "available_at": "2026-11-16T10:45:00Z",
+          "claim": "The maintenance window awaits approval. Patch-test and rollback-test records have yet to be located."
+        },
+        {
+          "source_id": "PUMP-07",
+          "source": "Vendor correction",
+          "available_at": "2026-11-16T11:30:00Z",
+          "claim": "The initial notice described a laboratory demonstration as customer exploitation in error. The vendor withdraws its observation claim. The newsletter still carries its earlier copy.",
+          "supersedes": "PUMP-03"
+        }
+      ]
+    }
+  ]
+}
