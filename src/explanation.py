@@ -4,7 +4,8 @@
 def markdown_comparison(cases, results):
     by_id = {r["case_id"]: r for r in results}
     baseline = sorted(cases, key=lambda x: (-x["severity_proxy_0_10"], x["case_id"]))
-    lines = ["# OT-RRDE v0.1: synthetic severity-only baseline comparison", "",
+    policy_version = next(iter(by_id.values()), {}).get("policy_version", "0.1")
+    lines = [f"# OT-RRDE v{policy_version}: synthetic severity-only baseline comparison", "",
              "**Research-only demonstration.** Inputs are fictional; severity is a 0–10 proxy, not official CVSS; the policy has not been externally calibrated. Higher triage urgency is **not** a command to patch.", "",
              "| Severity-only rank | Case | Synthetic severity | OT-aware triage | Candidate action |", "| ---: | --- | ---: | --- | --- |"]
     for i, c in enumerate(baseline, 1):

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "OT-RRDE synthetic case (v0.1–v0.2.1 optional fields)",
+  "title": "OT-RRDE synthetic case",
   "type": "object",
   "properties": {
     "zone": {
@@ -158,6 +158,25 @@
         "null"
       ],
       "format": "date"
+    },
+    "epss_evidence": {
+      "type": ["object", "null"],
+      "description": "Optional synthetic snapshot evidence assessed by the v0.3 development policy",
+      "properties": {
+        "snapshot_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "score_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "available_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["snapshot_id", "score_date", "available_at"]
     },
     "compensating_controls": {
       "type": "array",

@@ -1,4 +1,7 @@
 """Deterministic, human-reviewed OT remediation decision-support policy."""
+from copy import deepcopy
+from datetime import date, datetime, timezone
+
 from .validator import validate_case
 
 READY_FIELDS = ("patch_available", "vendor_approved", "patch_tested", "maintenance_window_approved", "rollback_tested")
@@ -57,7 +60,6 @@ def _review_controls(case, policy):
     """Examine synthetic evidence assertions; never infer real-world efficacy."""
     if not policy.get("control_evidence_enabled", False):
         return None
-    from datetime import date, datetime
 
     recorded = datetime.fromisoformat(case["recorded_at"].replace("Z", "+00:00")).date()
     credited, uncredited = [], []
@@ -92,9 +94,60 @@ def _review_controls(case, policy):
     }
 
 
+def _utc_timestamp(raw):
+    if not isinstance(raw, str):
+        raise TypeError("expected an ISO timestamp")
+    timestamp = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    if timestamp.tzinfo is None:
+        raise ValueError("timestamp requires an explicit UTC offset")
+    return timestamp.astimezone(timezone.utc)
+
+
+def _epss_timing_issue(case):
+    """Check the supplied synthetic snapshot against the decision cutoff."""
+    if case["epss_probability"] is None:
+        return "EPSS_NOT_PROVIDED_OR_UNKNOWN"
+
+    evidence = case.get("epss_evidence")
+    if evidence is None:
+        return "EPSS_SNAPSHOT_EVIDENCE_MISSING"
+    snapshot_id = evidence.get("snapshot_id") if isinstance(evidence, dict) else None
+    if not isinstance(snapshot_id, str) or not snapshot_id.strip():
+        return "EPSS_SNAPSHOT_EVIDENCE_INVALID"
+
+    try:
+        score_date_text = evidence.get("score_date")
+        score_date = date.fromisoformat(score_date_text)
+        available_at = _utc_timestamp(evidence.get("available_at"))
+        cutoff = _utc_timestamp(case["recorded_at"])
+    except (TypeError, ValueError, OverflowError):
+        return "EPSS_SNAPSHOT_TIMESTAMPS_INVALID"
+    if score_date.isoformat() != score_date_text:
+        return "EPSS_SNAPSHOT_TIMESTAMPS_INVALID"
+    if score_date > cutoff.date() or available_at > cutoff:
+        return "EPSS_EVIDENCE_AFTER_DECISION_CUTOFF"
+    if score_date > available_at.date():
+        return "EPSS_SNAPSHOT_AVAILABILITY_PRECEDES_SCORE_DATE"
+    return None
+
+
 def decide(case, policy):
     warnings = validate_case(case)
     reasons, missing, gates = [], [], []
+    epss_probability = case["epss_probability"]
+    epss_assessment = None
+    if policy.get("epss_timing_gate_enabled", False):
+        issue = _epss_timing_issue(case)
+        if issue:
+            epss_probability = None
+            if issue not in warnings:
+                warnings.append(issue)
+        epss_assessment = {
+            "decision_cutoff": case["recorded_at"],
+            "snapshot_evidence": deepcopy(case.get("epss_evidence")),
+            "eligible_probability": epss_probability,
+            "exclusion_reason": issue,
+        }
     control_review = _review_controls(case, policy)
     critical_safety = case["safety_consequence"] in policy["critical_safety_categories"]
     if critical_safety:
@@ -138,16 +191,15 @@ def decide(case, policy):
         tier = "P1"
         reasons.append("EXPLOITED_VULNERABILITY_WITH_VERIFIED_PATH")
     elif (case["severity_proxy_0_10"] >= policy["synthetic_severity_p1"] and
-          case["epss_probability"] is not None and
-          case["epss_probability"] >= policy["epss_threshold"] and
+          epss_probability is not None and
+          epss_probability >= policy["epss_threshold"] and
           case["reachability"] in ("internet", "enterprise_path")):
         tier = "P1"
         reasons.append("SEVERE_EXPOSED_HIGH_EPSS_PROXY")
     elif (exploited and case["reachability"] == "isolated_verified"):
         tier = "P2"
         reasons.append("EXPLOITED_BUT_VERIFIED_ISOLATION")
-    elif (case["epss_probability"] is not None and
-          case["epss_probability"] >= policy["epss_threshold"] and reachable):
+    elif epss_probability is not None and epss_probability >= policy["epss_threshold"] and reachable:
         tier = "P2"
         reasons.append("EPSS_THRESHOLD_AND_REACHABLE")
     elif (case["severity_proxy_0_10"] >= policy["synthetic_severity_p2"] and critical_safety):
@@ -170,8 +222,11 @@ def decide(case, policy):
         missing.append("OT safety consequence assessment")
     if case["availability_consequence"] == "unknown":
         missing.append("OT availability consequence assessment")
-    if case["epss_probability"] is None:
-        missing.append("dated EPSS source value (if applicable)")
+    if epss_probability is None:
+        missing.append(
+            "EPSS snapshot available by the decision cutoff (if applicable)"
+            if epss_assessment is not None else "dated EPSS source value (if applicable)"
+        )
     if tier in ("ASSESS_APPLICABILITY", "NEEDS_CONTEXT_REVIEW"):
         action = "GATHER_EVIDENCE_AND_ESCALATE"
         reasons.append("NO_OPERATIONAL_CHANGE_WITH_MISSING_FACTS")
@@ -226,6 +281,8 @@ def decide(case, policy):
         })
     if control_review is not None:
         outcome["control_assessment"] = control_review
+    if epss_assessment is not None:
+        outcome["epss_assessment"] = epss_assessment
     return outcome
 
 
