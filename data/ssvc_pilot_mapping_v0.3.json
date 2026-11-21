@@ -1,0 +1,403 @@
+{
+  "title": "OT-RRDE v0.3 pilot mapping to CERT/CC SSVC",
+  "date": "2026-11-21",
+  "authoring_status": "Author-proposed mappings awaiting independent review",
+  "dataset": {
+    "path": "data/pilot_cases_v0.3.json",
+    "commit": "48f4fd3fa535f7d5433a656463f684ac80aac35c",
+    "sha256": "2d018eaec1d4c32380e3e3029f95e78d7674bb800186aa8d27b604b1642c20a4"
+  },
+  "reference_model": {
+    "identity": "ssvc:DT_DP:1.0.0",
+    "path": "data/reference/ssvc_deployer_1.0.0.json",
+    "sha256": "7ad7b0de5dd93b41d681a84c5229e2f56837a99d1ec86996f6b9df02775f81fd",
+    "upstream_commit": "bf3213bc0bd2bf3cf1329c9b48f72d7163a682b1",
+    "upstream_blob_sha": "0421248b655dfeb584f30d1f7b862fbee9286aa3",
+    "source_url": "https://github.com/CERTCC/SSVC/blob/bf3213bc0bd2bf3cf1329c9b48f72d7163a682b1/data/json/decision_tables/ssvc/deployer_patch_application_priority_1_0_0.json",
+    "licence_path": "data/reference/SSVC_LICENSE.txt",
+    "licence_url": "https://github.com/CERTCC/SSVC/blob/bf3213bc0bd2bf3cf1329c9b48f72d7163a682b1/data/LICENSE",
+    "documentation_url": "https://github.com/CERTCC/SSVC/blob/bf3213bc0bd2bf3cf1329c9b48f72d7163a682b1/docs/howto/deployer_tree.md"
+  },
+  "comparison_conventions": [
+    "Each SSVC input carries its own value, evidence and rationale. Null is an unresolved input and withholds an exact tree outcome.",
+    "The pinned CERT/CC exposure default is applied as Open to unknown paths and labelled as a default. Controlled mappings retain their provisional analyst status.",
+    "Exploitation None requires the dossier to document adequate checking for public exploit code or a well-known method, in addition to its observations about active exploitation.",
+    "Deployment rating scope follows the existing study protocol's applicable-and-deployable patch endpoint. It is tracked separately from completeness of the priority-tree inputs.",
+    "Investigation urgency and deployment priority are separate endpoints. Both are reported in their native categories.",
+    "A direct judgement of decision quality requires independent ratings and the same scorable pairs."
+  ],
+  "definition_urls": {
+    "exploitation": "https://github.com/CERTCC/SSVC/blob/bf3213bc0bd2bf3cf1329c9b48f72d7163a682b1/docs/reference/decision_points/exploitation.md",
+    "exploitation_defaults": "https://github.com/CERTCC/SSVC/blob/bf3213bc0bd2bf3cf1329c9b48f72d7163a682b1/docs/_includes/default_exploitation_values.md",
+    "exposure": "https://github.com/CERTCC/SSVC/blob/bf3213bc0bd2bf3cf1329c9b48f72d7163a682b1/docs/reference/decision_points/system_exposure.md",
+    "exposure_defaults": "https://github.com/CERTCC/SSVC/blob/bf3213bc0bd2bf3cf1329c9b48f72d7163a682b1/docs/_includes/default_system_exposure_values.md",
+    "automatable": "https://github.com/CERTCC/SSVC/blob/bf3213bc0bd2bf3cf1329c9b48f72d7163a682b1/docs/reference/decision_points/automatable.md",
+    "human_impact": "https://github.com/CERTCC/SSVC/blob/bf3213bc0bd2bf3cf1329c9b48f72d7163a682b1/docs/reference/decision_points/human_impact.md",
+    "mission_impact": "https://github.com/CERTCC/SSVC/blob/bf3213bc0bd2bf3cf1329c9b48f72d7163a682b1/docs/reference/decision_points/mission_impact.md",
+    "safety_impact": "https://github.com/CERTCC/SSVC/blob/bf3213bc0bd2bf3cf1329c9b48f72d7163a682b1/docs/reference/decision_points/safety_impact.md"
+  },
+  "cases": [
+    {
+      "case_id": "PILOT-64",
+      "evidence_cutoff": "2026-11-16T12:00:00Z",
+      "decisions": {
+        "ssvc:E:1.1.0": {
+          "value": "A",
+          "basis": "The in-time fictional catalogue records exploitation in the wild for the finding.",
+          "evidence_refs": [
+            "LINE-10"
+          ],
+          "default_applied": false
+        },
+        "ssvc:EXP:1.0.1": {
+          "value": "C",
+          "basis": "The structured case declares a verified controlled path. Controlled is a provisional mapping whose access restrictions and attack-path details need clarification.",
+          "evidence_refs": [
+            "reachability",
+            "reachability_verified",
+            "notes"
+          ],
+          "default_applied": false
+        },
+        "ssvc:A:2.0.0": {
+          "value": null,
+          "basis": "The dossier supplies no exploit mechanics or chain evidence sufficient to assess reliable automation of reconnaissance, weaponisation, delivery and exploitation.",
+          "evidence_refs": [],
+          "default_applied": false
+        },
+        "ssvc:HI:2.0.2": {
+          "value": null,
+          "basis": "The dossier gives broad safety and availability labels. An organisation-specific mission assessment and a safety-impact assessment under the SSVC definitions are required to select Human Impact.",
+          "evidence_refs": [
+            "safety_consequence",
+            "availability_consequence",
+            "notes"
+          ],
+          "default_applied": false
+        }
+      },
+      "deployment_rating_scope": {
+        "within_protocol": false,
+        "basis": "Availability-impact review awaits sign-off, so the study's applicable-and-deployable patch endpoint is pending."
+      },
+      "interpretation_note": "Mappings were authored after the pilot case design and require independent criticism."
+    },
+    {
+      "case_id": "PILOT-41",
+      "evidence_cutoff": "2026-11-16T12:00:00Z",
+      "decisions": {
+        "ssvc:E:1.1.0": {
+          "value": null,
+          "basis": "The threat desk reports a negative catalogue lookup and no active-exploitation reports in its reviewed sources. The dossier omits the outcome of an adequate search for public exploit code or a well-known exploitation method.",
+          "evidence_refs": [
+            "COLD-18"
+          ],
+          "default_applied": false
+        },
+        "ssvc:EXP:1.0.1": {
+          "value": "C",
+          "basis": "The fictional dossier describes a networked service with current access restrictions. Controlled is the analyst's proposed mapping, subject to technical review.",
+          "evidence_refs": [
+            "reachability",
+            "reachability_verified",
+            "notes"
+          ],
+          "default_applied": false
+        },
+        "ssvc:A:2.0.0": {
+          "value": null,
+          "basis": "The dossier supplies no exploit mechanics or chain evidence sufficient to assess reliable automation of reconnaissance, weaponisation, delivery and exploitation.",
+          "evidence_refs": [],
+          "default_applied": false
+        },
+        "ssvc:HI:2.0.2": {
+          "value": null,
+          "basis": "The dossier gives broad safety and availability labels. An organisation-specific mission assessment and a safety-impact assessment under the SSVC definitions are required to select Human Impact.",
+          "evidence_refs": [
+            "safety_consequence",
+            "availability_consequence",
+            "notes"
+          ],
+          "default_applied": false
+        }
+      },
+      "deployment_rating_scope": {
+        "within_protocol": false,
+        "basis": "Patch-test, rollback-test and maintenance-window evidence is incomplete."
+      },
+      "interpretation_note": "Mappings were authored after the pilot case design and require independent criticism."
+    },
+    {
+      "case_id": "PILOT-57",
+      "evidence_cutoff": "2026-11-16T12:00:00Z",
+      "decisions": {
+        "ssvc:E:1.1.0": {
+          "value": null,
+          "basis": "The threat desk reports a negative catalogue lookup and no active-exploitation reports in its reviewed sources. The dossier omits the outcome of an adequate search for public exploit code or a well-known exploitation method.",
+          "evidence_refs": [
+            "REPLICA-21"
+          ],
+          "default_applied": false
+        },
+        "ssvc:EXP:1.0.1": {
+          "value": "C",
+          "basis": "The fictional dossier describes a networked service with current access restrictions. Controlled is the analyst's proposed mapping, subject to technical review.",
+          "evidence_refs": [
+            "reachability",
+            "reachability_verified",
+            "notes"
+          ],
+          "default_applied": false
+        },
+        "ssvc:A:2.0.0": {
+          "value": null,
+          "basis": "The dossier supplies no exploit mechanics or chain evidence sufficient to assess reliable automation of reconnaissance, weaponisation, delivery and exploitation.",
+          "evidence_refs": [],
+          "default_applied": false
+        },
+        "ssvc:HI:2.0.2": {
+          "value": null,
+          "basis": "The dossier gives broad safety and availability labels. An organisation-specific mission assessment and a safety-impact assessment under the SSVC definitions are required to select Human Impact.",
+          "evidence_refs": [
+            "safety_consequence",
+            "availability_consequence",
+            "notes"
+          ],
+          "default_applied": false
+        }
+      },
+      "deployment_rating_scope": {
+        "within_protocol": false,
+        "basis": "Affected-build applicability is unresolved and patch-readiness evidence is incomplete."
+      },
+      "interpretation_note": "Mappings were authored after the pilot case design and require independent criticism."
+    },
+    {
+      "case_id": "PILOT-72",
+      "evidence_cutoff": "2026-11-16T12:00:00Z",
+      "decisions": {
+        "ssvc:E:1.1.0": {
+          "value": "A",
+          "basis": "The in-time vendor notice reports observed exploitation in customer environments. The newsletter derives from that notice.",
+          "evidence_refs": [
+            "PUMP-03"
+          ],
+          "default_applied": false
+        },
+        "ssvc:EXP:1.0.1": {
+          "value": "O",
+          "basis": "CERT/CC's documented exposure default is Open when the deployer has insufficient knowledge of exposure. This is a precautionary default applied to an unresolved path.",
+          "evidence_refs": [
+            "reachability",
+            "reachability_verified",
+            "notes"
+          ],
+          "default_applied": true
+        },
+        "ssvc:A:2.0.0": {
+          "value": null,
+          "basis": "The dossier supplies no exploit mechanics or chain evidence sufficient to assess reliable automation of reconnaissance, weaponisation, delivery and exploitation.",
+          "evidence_refs": [],
+          "default_applied": false
+        },
+        "ssvc:HI:2.0.2": {
+          "value": null,
+          "basis": "The dossier gives broad safety and availability labels. An organisation-specific mission assessment and a safety-impact assessment under the SSVC definitions are required to select Human Impact.",
+          "evidence_refs": [
+            "safety_consequence",
+            "availability_consequence",
+            "notes"
+          ],
+          "default_applied": false
+        }
+      },
+      "deployment_rating_scope": {
+        "within_protocol": false,
+        "basis": "Local exposure and patch-test, rollback-test and maintenance-window evidence are unresolved."
+      },
+      "interpretation_note": "Mappings were authored after the pilot case design and require independent criticism."
+    },
+    {
+      "case_id": "PILOT-29",
+      "evidence_cutoff": "2026-11-16T12:00:00Z",
+      "decisions": {
+        "ssvc:E:1.1.0": {
+          "value": null,
+          "basis": "The threat desk reports a negative catalogue lookup and no active-exploitation reports in its reviewed sources. The dossier omits the outcome of an adequate search for public exploit code or a well-known exploitation method.",
+          "evidence_refs": [
+            "REPLICA-21"
+          ],
+          "default_applied": false
+        },
+        "ssvc:EXP:1.0.1": {
+          "value": "C",
+          "basis": "The fictional dossier describes a networked service with current access restrictions. Controlled is the analyst's proposed mapping, subject to technical review.",
+          "evidence_refs": [
+            "reachability",
+            "reachability_verified",
+            "notes"
+          ],
+          "default_applied": false
+        },
+        "ssvc:A:2.0.0": {
+          "value": null,
+          "basis": "The dossier supplies no exploit mechanics or chain evidence sufficient to assess reliable automation of reconnaissance, weaponisation, delivery and exploitation.",
+          "evidence_refs": [],
+          "default_applied": false
+        },
+        "ssvc:HI:2.0.2": {
+          "value": null,
+          "basis": "The dossier gives broad safety and availability labels. An organisation-specific mission assessment and a safety-impact assessment under the SSVC definitions are required to select Human Impact.",
+          "evidence_refs": [
+            "safety_consequence",
+            "availability_consequence",
+            "notes"
+          ],
+          "default_applied": false
+        }
+      },
+      "deployment_rating_scope": {
+        "within_protocol": false,
+        "basis": "Patch-test, rollback-test and maintenance-window evidence is incomplete."
+      },
+      "interpretation_note": "Mappings were authored after the pilot case design and require independent criticism."
+    },
+    {
+      "case_id": "PILOT-83",
+      "evidence_cutoff": "2026-11-16T12:00:00Z",
+      "decisions": {
+        "ssvc:E:1.1.0": {
+          "value": null,
+          "basis": "The threat desk reports a negative catalogue lookup and no active-exploitation reports in its reviewed sources. The dossier omits the outcome of an adequate search for public exploit code or a well-known exploitation method.",
+          "evidence_refs": [
+            "COLD-18"
+          ],
+          "default_applied": false
+        },
+        "ssvc:EXP:1.0.1": {
+          "value": "C",
+          "basis": "The fictional dossier describes a networked service with current access restrictions. Controlled is the analyst's proposed mapping, subject to technical review.",
+          "evidence_refs": [
+            "reachability",
+            "reachability_verified",
+            "notes"
+          ],
+          "default_applied": false
+        },
+        "ssvc:A:2.0.0": {
+          "value": null,
+          "basis": "The dossier supplies no exploit mechanics or chain evidence sufficient to assess reliable automation of reconnaissance, weaponisation, delivery and exploitation.",
+          "evidence_refs": [],
+          "default_applied": false
+        },
+        "ssvc:HI:2.0.2": {
+          "value": null,
+          "basis": "The dossier gives broad safety and availability labels. An organisation-specific mission assessment and a safety-impact assessment under the SSVC definitions are required to select Human Impact.",
+          "evidence_refs": [
+            "safety_consequence",
+            "availability_consequence",
+            "notes"
+          ],
+          "default_applied": false
+        }
+      },
+      "deployment_rating_scope": {
+        "within_protocol": false,
+        "basis": "Patch-test, rollback-test and maintenance-window evidence is incomplete."
+      },
+      "interpretation_note": "Mappings were authored after the pilot case design and require independent criticism."
+    },
+    {
+      "case_id": "PILOT-35",
+      "evidence_cutoff": "2026-11-16T12:00:00Z",
+      "decisions": {
+        "ssvc:E:1.1.0": {
+          "value": "A",
+          "basis": "The in-time fictional catalogue records exploitation in the wild for the finding.",
+          "evidence_refs": [
+            "LINE-10"
+          ],
+          "default_applied": false
+        },
+        "ssvc:EXP:1.0.1": {
+          "value": "C",
+          "basis": "The structured case declares a verified controlled path. Controlled is a provisional mapping whose access restrictions and attack-path details need clarification.",
+          "evidence_refs": [
+            "reachability",
+            "reachability_verified",
+            "notes"
+          ],
+          "default_applied": false
+        },
+        "ssvc:A:2.0.0": {
+          "value": null,
+          "basis": "The dossier supplies no exploit mechanics or chain evidence sufficient to assess reliable automation of reconnaissance, weaponisation, delivery and exploitation.",
+          "evidence_refs": [],
+          "default_applied": false
+        },
+        "ssvc:HI:2.0.2": {
+          "value": null,
+          "basis": "The dossier gives broad safety and availability labels. An organisation-specific mission assessment and a safety-impact assessment under the SSVC definitions are required to select Human Impact.",
+          "evidence_refs": [
+            "safety_consequence",
+            "availability_consequence",
+            "notes"
+          ],
+          "default_applied": false
+        }
+      },
+      "deployment_rating_scope": {
+        "within_protocol": true,
+        "basis": "Applicable patch and all declared patch-readiness and availability prerequisites are present. The human rating concerns a conditional proposal with final change authorisation pending."
+      },
+      "interpretation_note": "Mappings were authored after the pilot case design and require independent criticism."
+    },
+    {
+      "case_id": "PILOT-16",
+      "evidence_cutoff": "2026-11-16T12:00:00Z",
+      "decisions": {
+        "ssvc:E:1.1.0": {
+          "value": null,
+          "basis": "The vendor correction withdraws the observation of active exploitation. The dossier leaves public exploit-code availability and a well-known exploitation method unresolved.",
+          "evidence_refs": [
+            "PUMP-03",
+            "PUMP-04",
+            "PUMP-07"
+          ],
+          "default_applied": false
+        },
+        "ssvc:EXP:1.0.1": {
+          "value": "O",
+          "basis": "CERT/CC's documented exposure default is Open when the deployer has insufficient knowledge of exposure. This is a precautionary default applied to an unresolved path.",
+          "evidence_refs": [
+            "reachability",
+            "reachability_verified",
+            "notes"
+          ],
+          "default_applied": true
+        },
+        "ssvc:A:2.0.0": {
+          "value": null,
+          "basis": "The dossier supplies no exploit mechanics or chain evidence sufficient to assess reliable automation of reconnaissance, weaponisation, delivery and exploitation.",
+          "evidence_refs": [],
+          "default_applied": false
+        },
+        "ssvc:HI:2.0.2": {
+          "value": null,
+          "basis": "The dossier gives broad safety and availability labels. An organisation-specific mission assessment and a safety-impact assessment under the SSVC definitions are required to select Human Impact.",
+          "evidence_refs": [
+            "safety_consequence",
+            "availability_consequence",
+            "notes"
+          ],
+          "default_applied": false
+        }
+      },
+      "deployment_rating_scope": {
+        "within_protocol": false,
+        "basis": "Local exposure and patch-test, rollback-test and maintenance-window evidence are unresolved."
+      },
+      "interpretation_note": "The active-exploitation field was manually projected to unknown in the shared pilot inputs. The current engines consume that projection, while the source records remain available for human review."
+    }
+  ]
+}
