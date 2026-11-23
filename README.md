@@ -1,134 +1,65 @@
 # OT Risk & Remediation Decision Engine (OT-RRDE)
 
-**Latest research policy: v0.2.1 (compensating-control evidence checks and 15-case benchmark)** · **Status: offline, synthetic-data research prototype**  
-**Default CLI policy: v0.1**, retained for reproducible comparisons. Select v0.2 or v0.2.1 explicitly using `--policy policy/v0.2.json` or `--policy policy/v0.2.1.json`.
+This project asks two questions about a security issue in operational technology (OT), the hardware and software that run industrial equipment. How soon should someone investigate? What needs checking before anyone proposes a change?
 
-OT-RRDE is an explainable Python prototype exploring how to **separate vulnerability investigation urgency from the operational feasibility of remediation** in operational technology (OT) environments. It evaluates fictional asset and threat inputs, returns human-reviewable candidate actions, and documents the evidence needed before considering a change.
+The prototype runs offline. It reads a fictional case and writes a report with its suggested next step, its reasons and the information still missing. Engineers and asset owners review the findings and authorise any real change.
 
-> **Safety boundary:** This is not validated operational decision software. It does not scan OT networks, connect to industrial equipment, deploy patches, modify firewalls, or authorise changes. Recommendations are illustrative and require qualified site-specific engineering and change approval.
+The latest published set of rules is **v0.2.1**. On this research branch, v0.3 also checks the dates supplied with a forecast about a vulnerability. I’m asking engineers how they handle conflicting records in practice. [Read the short feedback brief](docs/v0.3-product-problem-brief.md).
 
-## What's new in v0.2.1
+## What a result means
 
-**Control evidence and evaluation benchmark:** v0.2.1 adds optional control type, attack-path relevance and evidence date fields to fictional control records. A control is only credited as an *internally consistent synthetic evidence assertion* when its status, relevance, type and date meet a transparent **90-day research heuristic**. This is **not** independent verification of control effectiveness.
+The report gives a suggested investigation priority. **P1** means look into the issue immediately, **P2** means review it promptly and **P3** means schedule it for normal review. If the case leaves out an important fact, the tool can ask for more information. For example, the team may still need to confirm that the affected software is installed.
 
-- Unsupported `isolated_verified` claims cause `NEEDS_CONTEXT_REVIEW` instead of assuming isolation has been established.
-- Crediting a control **never lowers exploitation urgency**, and cannot authorise any remediation.
-- A [15-case synthetic challenge dataset](data/challenge_cases_v0.2.1.json), new tests and a [benchmark evaluation script](scripts/evaluate_benchmark.py) explore boundary cases.
-- See the [v0.2.1 methodology and limitations](docs/v0.2.1-control-evidence-methodology.md). The expected benchmark labels were **written from our own rules**, not supplied by independent OT experts; matching them does not measure accuracy.
+A patch proposal has its own checks. The record must show that a patch is available, the supplier has approved it, the team has tested the patch and how to undo it, and a maintenance window has been approved. A P1 investigation can therefore be urgent while a patch still needs testing.
 
-### Run the v0.2.1 research policy and benchmark
+## What changed between versions
+
+**v0.2** added checks for equipment where an outage would have a high or critical impact. The record must show that operations has reviewed and approved the expected impact. If another system cannot take over, the team also needs an approved plan for the downtime. If it’s unclear whether another system can take over, the tool asks the team to check. A case with major or catastrophic safety consequences also requires an engineering safety review. [Availability rules and examples](docs/v0.2-availability-safeguards.md).
+
+**v0.2.1** checks the records for protective measures such as network isolation. A measure counts only if the case identifies its type, records it as verified for the route in question, and gives a check date on or before the case date and no more than 90 days earlier. The 90 days are a setting chosen for this experiment. The code can check whether the entries agree. Checking that a measure works on site is a separate engineering task.
+
+If the record claims that equipment is isolated but lacks the supporting check, the tool asks for evidence. A supported control record by itself never lowers the investigation priority. [Control checks and their limits](docs/v0.2.1-control-evidence-methodology.md).
+
+**v0.3 is in development.** It checks the dates recorded for one score that estimates how likely attackers are to use a vulnerability. A score that arrived after the decision is excluded. A note bringing together conflicting records and later corrections is still a proposal.
+
+## Run it locally
+
+Use Python 3.10 or later. Open a terminal in the folder that contains `main.py`. Python’s standard library is sufficient. The examples use the Windows `py` command. On macOS or Linux, use `python3`.
+
+To run the published v0.2.1 rules on the 15 test cases, use this command.
 
 ```powershell
 py main.py --input data/challenge_cases_v0.2.1.json --policy policy/v0.2.1.json --output reports/v0.2.1_results.json --report reports/v0.2.1_comparison.md
-py -m unittest discover -s tests -v
-py scripts/evaluate_benchmark.py
 ```
 
-`reports/v0.2.1_benchmark.md` is produced locally by the evaluation script. All cases are fictional and no OT equipment is accessed.
+Open `reports/v0.2.1_comparison.md` to read the comparison. The JSON file contains the results for each case. The comparison ranks the cases using severity scores from 0 to 10. The author chose these numbers for the exercise.
 
-## What's new in v0.2
-
-Version 0.2 adds an **operational availability assurance gate** alongside the existing patch-readiness and safety checks:
-
-| Condition | Research policy behaviour |
-| --- | --- |
-| `availability_consequence` is `high` or `critical` | Require an explicit operational availability-impact review |
-| Availability review not approved or unknown | Do **not** propose a patch yet; request review evidence |
-| Redundancy verified | A patch may be *proposed* if the review and all other readiness checks are satisfied |
-| No verified redundancy (`false`) | Require an approved downtime contingency before a patch proposal |
-| Redundancy status unknown | Do **not** propose a patch until the status is established, even if a contingency was marked approved |
-| Safety consequence is `major` or `catastrophic` | Preserve the engineering safety-review gate independently of patch readiness |
-
-The additional optional synthetic input fields are `availability_impact_review_approved` and `downtime_contingency_approved`, each accepting `true`, `false` or `"unknown"`. Missing values are **not** treated as approved.
-
-These controls affect **candidate remediation actions**, not automatic patch execution. For details and remaining limitations, read the [v0.2 methodology and safeguard notes](docs/v0.2-availability-safeguards.md).
-
-## Run locally (Python 3.10+)
-
-Use a terminal or PowerShell **inside this repository's root folder** (the folder containing `main.py`). The project uses only the Python standard library; no API keys, package installation or network access are needed.
-
-### Run the latest research policy (v0.2)
+To repeat the v0.2 example with the five original cases, run the following.
 
 ```powershell
 py main.py --policy policy/v0.2.json --output reports/v0.2_results.json --report reports/v0.2_comparison.md
 ```
 
-This reads the five fictional cases from `data/synthetic_cases_v0.1.json` and writes:
+Running `py main.py` with no options uses the original v0.1 rules. It writes `reports/example_results.json` and `reports/triage_comparison.md`.
 
-- `reports/v0.2_results.json`: structured triage decisions, approval gates, reason codes and missing evidence.
-- `reports/v0.2_comparison.md`: human-readable comparison against a **synthetic severity-only proxy** baseline.
-
-On systems without the Windows `py` launcher, replace `py` with `python`.
-
-### Run the preserved v0.1 baseline
-
-```powershell
-py main.py
-```
-
-Without an explicit `--policy`, the CLI **still uses `policy/v0.1.json`** and writes `reports/example_results.json` and `reports/triage_comparison.md`. This ensures earlier results remain reproducible.
-
-### Run all automated checks
+## Check the results
 
 ```powershell
 py -m unittest discover -s tests -v
+py scripts/evaluate_benchmark.py
 ```
 
-**The expanded automated suite** includes the original 26 tests plus new control-evidence and benchmark checks; see [GitHub Actions](../../actions) for current results. They test deterministic outputs, missing-data handling, research policy behaviour and selected safety invariants; passing tests is **not** evidence of real-world efficacy.
+The second command writes `reports/v0.2.1_benchmark.md`. The expected answers for the 15 cases come from the project’s own rules. A match shows that the code followed those rules on that case. Whether its advice helps people make better decisions in practice still needs independent study. [Automated check results](https://github.com/yassarsambo/ot-risk-remediation-decision-engine/actions).
 
-## How the decision engine works
+## Where to find things
 
-```text
-Synthetic OT asset + vulnerability records
-                 |
-                 v
-       Validate and flag unknowns
-                 |
-                 v
-      Investigation urgency policy
-      (P1 / P2 / P3 / unresolved)
-                 |
-                 v
-  Patch-readiness, safety and availability
-      assurance gates (policy v0.2)
-                 |
-                 v
-   Explainable candidate action + reasons
-            + missing evidence
-                 |
-                 v
-       Human expert reviews findings
-           (no automated changes)
-```
-
-- **Investigation urgency** considers synthetic exploitation indicators, reported exposure, consequences, and data completeness. P1 means *immediate human triage*, not immediate patching.
-- **Remediation feasibility** checks patch availability, vendor approval, testing, an approved maintenance window, rollback readiness, and (with v0.2) relevant operational availability and redundancy evidence.
-- **Explanations** expose the input signals, policy version, warnings, gate reasons and required human approvals for review.
-
-## Repository guide
-
-| Path | Contents |
+| What you need | Where to look |
 | --- | --- |
-| [`SPECIFICATION.md`](SPECIFICATION.md) | Original research question, v0.1 methods, model assumptions and evaluation criteria |
-| [`docs/v0.2-availability-safeguards.md`](docs/v0.2-availability-safeguards.md) | v0.2 change rationale, rules and limitations |
-| [`policy/v0.1.json`](policy/v0.1.json) / [`policy/v0.2.json`](policy/v0.2.json) / [`policy/v0.2.1.json`](policy/v0.2.1.json) | Versioned experimental policies |
-| [`data/synthetic_cases_v0.1.json`](data/synthetic_cases_v0.1.json) | Five original fictional OT vulnerability scenarios |
-| [`data/challenge_cases_v0.2.1.json`](data/challenge_cases_v0.2.1.json) | Fifteen additional policy-challenge fixtures, including modified versions of original cases |
-| [`docs/v0.2.1-control-evidence-methodology.md`](docs/v0.2.1-control-evidence-methodology.md) | Evidence assessment assumptions, methodological limitations and evaluation design |
-| [`src/decision_engine.py`](src/decision_engine.py) | Urgency rules and remediation gates |
-| [`src/validator.py`](src/validator.py) | Type, evidence and data-quality checks |
-| [`src/explanation.py`](src/explanation.py) | Comparison and explanation report generation |
-| [`tests/`](tests) | Unit tests for original and v0.2 research policies |
-| [`SECURITY.md`](SECURITY.md) | Safety and permitted-use boundaries |
+| Original question, assumptions and intended use | [Project specification](SPECIFICATION.md) and [use of the software](SECURITY.md) |
+| Rules used for a particular run | [v0.1](policy/v0.1.json), [v0.2](policy/v0.2.json) and [v0.2.1](policy/v0.2.1.json) |
+| Fictional cases | [Five original examples](data/synthetic_cases_v0.1.json) and [15 cases for v0.2.1](data/challenge_cases_v0.2.1.json) |
+| How reports are produced | [Decision rules](src/decision_engine.py), [input checks](src/validator.py) and [report formatting](src/explanation.py) |
+| Plan for interviews and independent case reviews | [Study notes, including links to pilot results](docs/v0.3-product-validation-notes.md) |
+| How to reproduce the checks | [Tests](tests) and [v0.2.1 comparison script](scripts/evaluate_benchmark.py) |
 
-## Research limitations and next steps
-
-- The five scenarios, severity scores, exploitation flags and EPSS figures are **fictional**. `severity_proxy_0_10` is **not an official CVSS score**.
-- Research thresholds and decision rules have **not been calibrated or externally validated**. The severity-only ranking is an illustrative baseline, not a rigorous commercial-tool comparison.
-- An approval field in a synthetic case is **not proof of real-world authorisation**; the tool does not independently verify reviewer identities, redundancy topology or contingency readiness.
-- v0.2.1 adds **synthetic compensating-control consistency checks**, but it does not verify real controls. Threat-intelligence provenance, site-specific operational constraints, independent OT expert review and a larger expert-labelled benchmark remain open research tasks.
-- No claim of demonstrated originality, risk reduction, operational deployment, external recognition, commercial adoption or Global Talent eligibility is made on the basis of this code alone.
-
-**Next planned development:** review compensating-control evidence and distinguish exploitation signals more precisely, then expand the synthetic evaluation benchmark and obtain independent OT security/safety critique.
-
-The project is intended for **authorised, offline educational and research evaluation only**.
+All examples, scores, approvals and control checks are fictional. Use the software for authorised offline research and education. A person using the results would still need evidence from the actual site.
