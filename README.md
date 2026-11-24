@@ -127,7 +127,7 @@ Synthetic OT asset + vulnerability records
 - Research thresholds and decision rules have **not been calibrated or externally validated**. The severity-only ranking is an illustrative baseline, not a rigorous commercial-tool comparison.
 - An approval field in a synthetic case is **not proof of real-world authorisation**; the tool does not independently verify reviewer identities, redundancy topology or contingency readiness.
 - v0.2.1 adds **synthetic compensating-control consistency checks**, but it does not verify real controls. Threat-intelligence provenance, site-specific operational constraints, independent OT expert review and a larger expert-labelled benchmark remain open research tasks.
-- No claim of demonstrated originality, risk reduction, operational deployment, external recognition, commercial adoption or Global Talent eligibility is made on the basis of this code alone.
+- No claim of demonstrated originality, risk reduction, operational deployment, external recognition or commercial adoption is made on the basis of this code alone.
 
 **Next planned development:** review compensating-control evidence and distinguish exploitation signals more precisely, then expand the synthetic evaluation benchmark and obtain independent OT security/safety critique.
 
